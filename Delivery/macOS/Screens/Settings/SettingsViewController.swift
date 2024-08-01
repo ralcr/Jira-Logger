@@ -60,23 +60,16 @@ class SettingsViewController: NSViewController {
         trackingView?.onBackupPressed = { [weak self] isOn in
             self?.presenter?.enableBackup(isOn)
         }
-
-        @IBAction func handleLaunchAtStartupButton (_ sender: NSButton) {
-            presenter!.enableLaunchAtStartup(sender.state == NSControl.StateValue.on)
+        trackingView?.onLaunchAtStartupPressed = { [weak self] isOn in
+            self?.presenter?.enableLaunchAtStartup(isOn)
         }
+
 //        inputsScrollView?.onPurchasePressed = { [weak self] in
 //            self?.presenter?.selectTab(.store)
 //        }
 //        outputsScrollView?.onPurchasePressed = { [weak self] in
 //            self?.presenter?.selectTab(.store)
 //        }
-        
-        #if !APPSTORE
-            butBackup.isEnabled = false
-            butBackup.state = NSControl.StateValue.off
-            butEnableLaunchAtStartup.isEnabled = false
-            butEnableLaunchAtStartup.state = NSControl.StateValue.off
-        #endif
     }
     
     override func viewWillDisappear() {
@@ -210,16 +203,16 @@ extension SettingsViewController: SettingsPresenterOutput {
     
     func showAppSettings (_ settings: Settings) {
         trackingView?.showSettings(settings.settingsTracking)
-        trackingView?.butBackup.state = settings.enableBackup ? NSControl.StateValue.on : NSControl.StateValue.off
+        trackingView?.butBackup.state = settings.enableBackup ? .on : .off
         browserScrollView?.showSettings(settings.settingsBrowser)
     }
     
     func enableLaunchAtStartup (_ enabled: Bool) {
-        trackingView!.butEnableLaunchAtStartup.state = enabled ? NSControl.StateValue.on : NSControl.StateValue.off
+        trackingView!.butEnableLaunchAtStartup.state = enabled ? .on : .off
     }
     
     func enableBackup (_ enabled: Bool, title: String) {
-        trackingView!.butBackup.state = enabled ? NSControl.StateValue.on : NSControl.StateValue.off
+        trackingView!.butBackup.state = enabled ? .on : .off
         trackingView!.butBackup.title = title
     }
     

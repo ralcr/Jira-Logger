@@ -11,8 +11,8 @@ import Cocoa
 import RCPreferences
 import RCLog
 
-protocol ReportsPresenterInput: class {
-    
+protocol ReportsPresenterInput: AnyObject {
+
     func viewDidLoad()
     func reloadLastSelectedMonth()
     func reloadReportsInDay (_ day: Day)
@@ -21,8 +21,8 @@ protocol ReportsPresenterInput: class {
     func messageButtonDidPress()
 }
 
-protocol ReportsPresenterOutput: class {
-    
+protocol ReportsPresenterOutput: AnyObject {
+
     func showLoadingIndicator (_ show: Bool)
     func showMessage (_ message: MessageViewModel)
     func showReports (_ reports: [Report], numberOfDays: Int)

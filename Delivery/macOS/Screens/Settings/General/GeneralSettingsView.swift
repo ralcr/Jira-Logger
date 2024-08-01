@@ -30,7 +30,7 @@ class GeneralSettingsView: NSView {
     @IBOutlet var butEnableLaunchAtStartup: NSButton!
 
     @IBAction func handleAutoTrackButton (_ sender: NSButton) {
-        autotrackingModeSegmentedControl.isEnabled = sender.state == NSControl.StateValue.on
+        autotrackingModeSegmentedControl.isEnabled = sender.state == .on
     }
     
     @IBAction func handleMinSleepDuration (_ sender: NSSlider) {
@@ -47,18 +47,25 @@ class GeneralSettingsView: NSView {
     
     func showSettings (_ settings: SettingsTracking) {
         
-        butAutotrack.state = settings.autotrack ? NSControl.StateValue.on : NSControl.StateValue.off
+        butAutotrack.state = settings.autotrack ? .on : .off
         autotrackingModeSegmentedControl.selectedSegment = settings.autotrackingMode.rawValue
         minSleepDurationSlider.integerValue = settings.minSleepDuration
         handleMinSleepDuration(minSleepDurationSlider)
-        butTrackStartOfDay.state = settings.trackStartOfDay ? NSControl.StateValue.on : NSControl.StateValue.off
-        butTrackLunch.state = settings.trackLunch ? NSControl.StateValue.on : NSControl.StateValue.off
-        butTrackScrum.state = settings.trackScrum ? NSControl.StateValue.on : NSControl.StateValue.off
+        butTrackStartOfDay.state = settings.trackStartOfDay ? .on : .off
+        butTrackLunch.state = settings.trackLunch ? .on : .off
+        butTrackScrum.state = settings.trackScrum ? .on : .off
         
         startOfDayTimePicker.dateValue = settings.startOfDayTime
         endOfDayTimePicker.dateValue = settings.endOfDayTime
         lunchTimePicker.dateValue = settings.lunchTime
         scrumTimePicker.dateValue = settings.scrumTime
+
+        #if !APPSTORE
+            butBackup.isEnabled = false
+            butBackup.state = .off
+            butEnableLaunchAtStartup.isEnabled = false
+            butEnableLaunchAtStartup.state = .off
+        #endif
     }
     
     func settings() -> SettingsTracking {
