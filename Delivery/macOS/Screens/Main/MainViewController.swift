@@ -97,12 +97,12 @@ extension MainViewController {
     }
 
     @IBAction func handleWarningButton (_ sender: NSButton) {
-        RCPreferences<LocalPreferences>().set(SettingsTab.input.rawValue, forKey: .settingsActiveTab)
-        appWireframe!.flipToSettingsController()
+        RCPreferences<LocalPreferences>().set(SettingsTab.scripts.rawValue, forKey: .settingsActiveTab)
+        appWireframe!.showSettings()
     }
 
     @objc func handleOpenSettingsButton (_ sender: NSMenuItem) {
-        appWireframe!.flipToSettingsController()
+        appWireframe!.showSettings()
     }
 
     @objc func handleRatingButton (_ sender: NSMenuItem) {

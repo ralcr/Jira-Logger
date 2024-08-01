@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23077.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23089" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23077.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -12,86 +12,9 @@
                     <view key="view" id="JAR-dh-Pss">
                         <rect key="frame" x="0.0" y="0.0" width="596" height="494"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aR4-jV-fsE">
-                                <rect key="frame" x="23" y="22" width="138" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Launch at startup" bezelStyle="regularSquare" imagePosition="left" inset="2" id="hx6-4U-fCn">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="handleLaunchAtStartupButton:" target="J1c-ZL-C5e" id="hmY-Rl-ndZ"/>
-                                </connections>
-                            </button>
-                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="k8O-jk-cLw">
-                                <rect key="frame" x="23" y="53" width="201" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Sync with iCloud and iOS app" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="4DA-1R-L49">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="handleBackupButton:" target="J1c-ZL-C5e" id="GbM-fW-zKy"/>
-                                </connections>
-                            </button>
-                            <box translatesAutoresizingMaskIntoConstraints="NO" id="PxN-df-6xl">
-                                <rect key="frame" x="7" y="87" width="582" height="362"/>
-                                <view key="contentView" id="8TK-hA-zVh">
-                                    <rect key="frame" x="4" y="5" width="574" height="342"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                </view>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="358" id="5cL-wi-gzh"/>
-                                </constraints>
-                            </box>
-                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SGn-yv-6JW">
-                                <rect key="frame" x="212" y="455" width="172" height="20"/>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="roundRect" trackingMode="selectOne" id="pn1-lj-JjN">
-                                    <font key="font" metaFont="system"/>
-                                    <segments>
-                                        <segment label="Tracking"/>
-                                        <segment label="Input" selected="YES" tag="1"/>
-                                        <segment label="Output"/>
-                                    </segments>
-                                </segmentedCell>
-                                <connections>
-                                    <action selector="handleSegmentedControl:" target="J1c-ZL-C5e" id="wev-kc-A58"/>
-                                </connections>
-                            </segmentedControl>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="PxN-df-6xl" firstAttribute="leading" secondItem="JAR-dh-Pss" secondAttribute="leading" constant="10" id="F1s-2p-LIi"/>
-                            <constraint firstAttribute="bottom" secondItem="PxN-df-6xl" secondAttribute="bottom" constant="91" id="Mhh-04-lzW"/>
-                            <constraint firstItem="SGn-yv-6JW" firstAttribute="centerX" secondItem="JAR-dh-Pss" secondAttribute="centerX" id="ZoM-gS-y3R"/>
-                            <constraint firstItem="PxN-df-6xl" firstAttribute="top" secondItem="JAR-dh-Pss" secondAttribute="top" constant="45" id="c7W-dQ-9er"/>
-                            <constraint firstAttribute="trailing" secondItem="PxN-df-6xl" secondAttribute="trailing" constant="10" id="cPD-hz-qMV"/>
-                            <constraint firstItem="SGn-yv-6JW" firstAttribute="top" secondItem="JAR-dh-Pss" secondAttribute="top" constant="20" id="jSr-nR-Hgq"/>
-                        </constraints>
                     </view>
-                    <connections>
-                        <outlet property="butBackup" destination="k8O-jk-cLw" id="Pir-WT-wKE"/>
-                        <outlet property="butEnableLaunchAtStartup" destination="aR4-jV-fsE" id="EdN-iT-CFP"/>
-                        <outlet property="container" destination="PxN-df-6xl" id="hXi-Lj-HJT"/>
-                        <outlet property="segmentedControl" destination="SGn-yv-6JW" id="TNf-TG-MYz"/>
-                    </connections>
                 </viewController>
                 <customObject id="C7k-Vd-XtM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <toolbar implicitIdentifier="09D11707-F4A3-4FD5-970E-AC5832E91C2B" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="Hec-gZ-vIg">
-                    <allowedToolbarItems>
-                        <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="8Px-MZ-NVN"/>
-                        <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="B6Q-5i-7yY"/>
-                        <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="BTo-8e-fwz"/>
-                        <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="1Zu-O7-km6"/>
-                        <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="CWI-wP-Zwq"/>
-                    </allowedToolbarItems>
-                    <defaultToolbarItems>
-                        <toolbarItem reference="CWI-wP-Zwq"/>
-                        <toolbarItem reference="8Px-MZ-NVN"/>
-                        <toolbarItem reference="B6Q-5i-7yY"/>
-                        <toolbarItem reference="BTo-8e-fwz"/>
-                    </defaultToolbarItems>
-                </toolbar>
             </objects>
             <point key="canvasLocation" x="150" y="770"/>
         </scene>

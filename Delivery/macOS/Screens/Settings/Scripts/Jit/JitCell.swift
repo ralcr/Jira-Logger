@@ -55,10 +55,9 @@ class JitCell: NSTableRowView {
 
     @IBAction func handleInstallButton (_ sender: NSButton) {
         #if APPSTORE
-            NSWorkspace.shared.open( URL(string: "http://www.jirassic.com/#extensions")!)
+        AppDelegate.sharedApp().openApplicationScripts()
         #else
-            //            presenter?.installJit()
-            NSWorkspace.shared.open( URL(string: "https://github.com/ralcr/Jit")!)
+//      presenter?.installJit()
         #endif
     }
     

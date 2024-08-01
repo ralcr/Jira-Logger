@@ -101,7 +101,7 @@ class AppWireframe {
         presenter.userInterface = controller
         presenter.interactor = interactor
         interactor.presenter = presenter
-        controller.view.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: 500, height: 500))
+        controller.view.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: 550, height: 500))
         controller.presenter = presenter
         controller.appWireframe = self
         
@@ -273,23 +273,13 @@ extension AppWireframe {
         flip.startWithLayer(layerToAnimate())
     }
     
-    func flipToSettingsController() {
-        
+    func showSettings() {
+
         let settingsController = createSettingsViewController()
         let window = NSWindow(contentViewController: settingsController)
-        window.title = "Jirassic settings"
+        window.title = "Jirassic Settings"
         window.level = .popUpMenu
         window.makeKeyAndOrderFront(nil)
-//        let flip = NoAnimation()
-//        flip.animationReachedMiddle = {
-//            self.removeCurrentController()
-//            self.removePlaceholder()
-//            self.removeEndDayController()
-//            self.addController(settingsController)
-//            self.currentController = settingsController
-//        }
-//        flip.animationFinished = {}
-//        flip.startWithLayer(layerToAnimate())
     }
     
     func flipToLoginController() {

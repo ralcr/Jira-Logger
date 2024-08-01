@@ -17,12 +17,12 @@ class WizardCalendarView: NSView {
     var onSkip: (() -> Void)?
     private let pref = RCPreferences<LocalPreferences>()
     private var calendarsButtons = [NSButton]()
-    private var presenter: CalendarAppPresenterInput = CalendarAppPresenter()
+    private var presenter: CalendarSettingsPresenterInput = CalendarSettingsPresenter()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        (presenter as! CalendarAppPresenter).userInterface = self
-        (presenter as! CalendarAppPresenter).refresh()
+        (presenter as! CalendarSettingsPresenter).userInterface = self
+        (presenter as! CalendarSettingsPresenter).refresh()
     }
     
     func save() {
@@ -56,7 +56,7 @@ class WizardCalendarView: NSView {
     }
 }
 
-extension WizardCalendarView: CalendarAppPresenterOutput {
+extension WizardCalendarView: CalendarSettingsPresenterOutput {
     
     func enable (_ enabled: Bool) {
         butAuthorize.isHidden = enabled

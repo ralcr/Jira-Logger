@@ -30,14 +30,6 @@ class InputsScrollView: NSScrollView {
         tableView.reloadData()
     }
 
-    func showSettings (_ settings: SettingsBrowser) {
-        dataSource!.browserSettings = settings
-    }
-
-    func settings() -> SettingsBrowser {
-        return dataSource!.browserSettings!
-    }
-    
     func save() {
 //        dataSource?.shellCell.save()
 //        dataSource?.jitCell.save()
@@ -60,9 +52,5 @@ class InputsScrollView: NSScrollView {
     
     func setGitStatus (available: Bool) {
         dataSource?.gitAvailable = available
-    }
-    
-    func setBrowserStatus (compatibility: Compatibility) {
-        dataSource?.browserCompatibility = compatibility
     }
 }

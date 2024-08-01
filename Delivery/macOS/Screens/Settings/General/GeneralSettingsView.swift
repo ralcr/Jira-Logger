@@ -8,8 +8,11 @@
 
 import Cocoa
 
-class TrackingView: NSView {
-    
+class GeneralSettingsView: NSView {
+
+    var onBackupPressed: ((Bool) -> Void)?
+    var onLaunchAtStartupPressed: ((Bool) -> Void)?
+
     @IBOutlet fileprivate var butAutotrack: NSButton!
     @IBOutlet fileprivate var autotrackingModeSegmentedControl: NSSegmentedControl!
     @IBOutlet fileprivate var butTrackStartOfDay: NSButton!
@@ -22,14 +25,24 @@ class TrackingView: NSView {
     @IBOutlet fileprivate var scrumTimePicker: NSDatePicker!
     @IBOutlet fileprivate var minSleepDurationLabel: NSTextField!
     @IBOutlet fileprivate var minSleepDurationSlider: NSSlider!
-    
-    
+
+    @IBOutlet var butBackup: NSButton!
+    @IBOutlet var butEnableLaunchAtStartup: NSButton!
+
     @IBAction func handleAutoTrackButton (_ sender: NSButton) {
         autotrackingModeSegmentedControl.isEnabled = sender.state == NSControl.StateValue.on
     }
     
     @IBAction func handleMinSleepDuration (_ sender: NSSlider) {
         minSleepDurationLabel.stringValue = "Ignore sleeps shorter than \(sender.integerValue) minutes"
+    }
+
+    @IBAction func handleBackupButton (_ sender: NSButton) {
+        onBackupPressed?(sender.state == .on)
+    }
+
+    @IBAction func handleLaunchAtStartupButton (_ sender: NSButton) {
+        onLaunchAtStartupPressed?(sender.state == .on)
     }
     
     func showSettings (_ settings: SettingsTracking) {

@@ -18,7 +18,7 @@ class ShellCell: NSTableRowView {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.toolTip = "Shell scripts are needed for communicating with the plugins: reading git logs, reading browser url, finding compatibility."
+        self.toolTip = "Application Scripts are needed for communicating with the plugins: reading git logs, reading browser url, finding compatibility."
     }
 
     func setShellStatus (compatibility: Compatibility) {
@@ -43,10 +43,9 @@ class ShellCell: NSTableRowView {
     
     @IBAction func handleInstallButton (_ sender: NSButton) {
         #if APPSTORE
-            NSWorkspace.shared.open( URL(string: "http://www.jirassic.com/#extensions")!)
+        AppDelegate.sharedApp().openApplicationScripts()
         #else
-            //            presenter?.installJirassic()
-            NSWorkspace.shared.open( URL(string: "http://www.jirassic.com/#extensions")!)
+//      presenter?.installJirassic()
         #endif
     }
 }

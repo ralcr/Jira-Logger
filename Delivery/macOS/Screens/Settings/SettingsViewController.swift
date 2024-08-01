@@ -10,50 +10,66 @@ import Cocoa
 import RCPreferences
 import RCLog
 
-enum SettingsTab: Int {
-    case tracking = 0
-    case input = 1
-    case output = 2
-    case store = 3
+extension NSToolbarItem.Identifier {
+    static let general = NSToolbarItem.Identifier("General")
+    static let scripts = NSToolbarItem.Identifier("Scripts")
+    static let calendar = NSToolbarItem.Identifier("Calendar")
+    static let browser = NSToolbarItem.Identifier("Browser")
+    static let jira = NSToolbarItem.Identifier("Jira")
 }
 
 class SettingsViewController: NSViewController {
-    
-    @IBOutlet private var segmentedControl: NSSegmentedControl!
-    @IBOutlet private var container: NSBox!
-    @IBOutlet private var butBackup: NSButton!
-    @IBOutlet private var butEnableLaunchAtStartup: NSButton!
-    // Tracking tab
-    private var trackingView: TrackingView?
-    // Input tab
+
+    private var trackingView: GeneralSettingsView?
     private var inputsScrollView: InputsScrollView?
-    // Output tab
     private var outputsScrollView: OutputsScrollView?
-    // Store tab
+    private var calendarScrollView: CalendarSettingsView?
+    private var browserScrollView: BrowserSettingsView?
     private var storeView: StoreView?
     
     weak var appWireframe: AppWireframe?
     var presenter: SettingsPresenterInput?
     private let localPreferences = RCPreferences<LocalPreferences>()
 	
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
     override func viewDidAppear() {
         super.viewDidAppear()
         createLayer()
+
+        // Setup toolbar
+        let toolbar = NSToolbar(identifier: "SettingsToolbar")
+        toolbar.delegate = self
+        toolbar.allowsUserCustomization = false
+        toolbar.autosavesConfiguration = false
+        toolbar.displayMode = .default
+        self.view.window?.toolbar = toolbar
         
-        trackingView = TrackingView.instantiateFromXib()
+        trackingView = GeneralSettingsView.instantiateFromXib()
         inputsScrollView = InputsScrollView.instantiateFromXib()
         outputsScrollView = OutputsScrollView.instantiateFromXib()
+        calendarScrollView = CalendarSettingsView.instantiateFromXib()
+        browserScrollView = BrowserSettingsView.instantiateFromXib()
 //        storeView = StoreView.instantiateFromXib()
         
         presenter!.checkExtensions()
         presenter!.showSettings()
 
-        inputsScrollView?.onPurchasePressed = { [weak self] in
-            self?.presenter?.selectTab(.store)
+        trackingView?.onBackupPressed = { [weak self] isOn in
+            self?.presenter?.enableBackup(isOn)
         }
-        outputsScrollView?.onPurchasePressed = { [weak self] in
-            self?.presenter?.selectTab(.store)
+
+        @IBAction func handleLaunchAtStartupButton (_ sender: NSButton) {
+            presenter!.enableLaunchAtStartup(sender.state == NSControl.StateValue.on)
         }
+//        inputsScrollView?.onPurchasePressed = { [weak self] in
+//            self?.presenter?.selectTab(.store)
+//        }
+//        outputsScrollView?.onPurchasePressed = { [weak self] in
+//            self?.presenter?.selectTab(.store)
+//        }
         
         #if !APPSTORE
             butBackup.isEnabled = false
@@ -67,9 +83,9 @@ class SettingsViewController: NSViewController {
         super.viewWillDisappear()
         
         let settings = Settings(
-            enableBackup: butBackup.state == NSControl.StateValue.on,
+            enableBackup: trackingView!.butBackup.state == NSControl.StateValue.on,
             settingsTracking: trackingView!.settings(),
-            settingsBrowser: inputsScrollView!.settings()
+            settingsBrowser: browserScrollView!.settings()
         )
         presenter!.saveAppSettings(settings)
         
@@ -86,23 +102,75 @@ class SettingsViewController: NSViewController {
         trackingView!.removeFromSuperview()
         inputsScrollView!.removeFromSuperview()
         outputsScrollView!.removeFromSuperview()
+        calendarScrollView!.removeFromSuperview()
+        browserScrollView!.removeFromSuperview()
 //        storeView!.removeFromSuperview()
     }
 }
 
-extension SettingsViewController {
+extension SettingsViewController: NSToolbarDelegate {
+    func toolbar(_ toolbar: NSToolbar,
+                 itemForItemIdentifier itemIdentifier: NSToolbarItem.Identifier,
+                 willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
+        let toolbarItem = NSToolbarItem(itemIdentifier: itemIdentifier)
+        switch itemIdentifier {
+        case .general:
+            toolbarItem.label = "General"
+            toolbarItem.image = NSImage(systemSymbolName: "gearshape", accessibilityDescription: "General")
+            toolbarItem.target = self
+            toolbarItem.action = #selector(switchToGeneralSettings)
+        case .scripts:
+            toolbarItem.label = "Scripts"
+            toolbarItem.image = NSImage(systemSymbolName: "applescript", accessibilityDescription: "Scripts")
+            toolbarItem.target = self
+            toolbarItem.action = #selector(switchToInputSettings)
+        case .jira:
+            toolbarItem.label = "Jira"
+            toolbarItem.image = NSImage(systemSymbolName: "applescript", accessibilityDescription: "Jira")
+            toolbarItem.target = self
+            toolbarItem.action = #selector(switchToJiraSettings)
+        case .calendar:
+            toolbarItem.label = "Calendar"
+            toolbarItem.image = NSImage(systemSymbolName: "calendar", accessibilityDescription: "Calendar")
+            toolbarItem.target = self
+            toolbarItem.action = #selector(switchToCalendarSettings)
+        case .browser:
+            toolbarItem.label = "Browser"
+            toolbarItem.image = NSImage(systemSymbolName: "network", accessibilityDescription: "Browser")
+            toolbarItem.target = self
+            toolbarItem.action = #selector(switchToBrowserSettings)
+        default:
+            return nil
+        }
+        return toolbarItem
+    }
 
-    @IBAction func handleBackupButton (_ sender: NSButton) {
-        presenter!.enableBackup(sender.state == NSControl.StateValue.on)
+    func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [.general, .scripts, .calendar, .browser]
     }
-    
-    @IBAction func handleLaunchAtStartupButton (_ sender: NSButton) {
-        presenter!.enableLaunchAtStartup(sender.state == NSControl.StateValue.on)
+
+    func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
+        return [.general, .scripts, .calendar, .browser]
     }
-    
-    @IBAction func handleSegmentedControl (_ sender: NSSegmentedControl) {
-        let tab = SettingsTab(rawValue: sender.selectedSegment)!
-        presenter!.selectTab(tab)
+
+    @objc func switchToGeneralSettings() {
+        selectTab(.general)
+    }
+
+    @objc func switchToInputSettings() {
+        selectTab(.scripts)
+    }
+
+    @objc func switchToCalendarSettings() {
+        selectTab(.calendar)
+    }
+
+    @objc func switchToBrowserSettings() {
+        selectTab(.browser)
+    }
+
+    @objc func switchToJiraSettings() {
+        selectTab(.jira)
     }
 }
 
@@ -133,7 +201,7 @@ extension SettingsViewController: SettingsPresenterOutput {
     }
     
     func setBrowserStatus (compatibility: Compatibility) {
-        inputsScrollView?.setBrowserStatus (compatibility: compatibility)
+        browserScrollView?.setBrowserStatus (compatibility: compatibility)
     }
     
     func setHookupStatus (available: Bool) {
@@ -141,39 +209,38 @@ extension SettingsViewController: SettingsPresenterOutput {
     }
     
     func showAppSettings (_ settings: Settings) {
-        
         trackingView?.showSettings(settings.settingsTracking)
-        inputsScrollView?.showSettings(settings.settingsBrowser)
-        
-        butBackup.state = settings.enableBackup ? NSControl.StateValue.on : NSControl.StateValue.off
+        trackingView?.butBackup.state = settings.enableBackup ? NSControl.StateValue.on : NSControl.StateValue.off
+        browserScrollView?.showSettings(settings.settingsBrowser)
     }
     
     func enableLaunchAtStartup (_ enabled: Bool) {
-        butEnableLaunchAtStartup.state = enabled ? NSControl.StateValue.on : NSControl.StateValue.off
+        trackingView!.butEnableLaunchAtStartup.state = enabled ? NSControl.StateValue.on : NSControl.StateValue.off
     }
     
     func enableBackup (_ enabled: Bool, title: String) {
-        butBackup.state = enabled ? NSControl.StateValue.on : NSControl.StateValue.off
-        butBackup.title = title
+        trackingView!.butBackup.state = enabled ? NSControl.StateValue.on : NSControl.StateValue.off
+        trackingView!.butBackup.title = title
     }
     
     func selectTab (_ tab: SettingsTab) {
         removeSelectedTabView()
-        segmentedControl!.selectedSegment = tab.rawValue
         switch tab {
-        case .tracking:
-            container.addSubview(trackingView!)
+        case .general:
+            view.addSubview(trackingView!)
             trackingView!.constrainToSuperview()
-        case .input:
-            container.addSubview(inputsScrollView!)
+        case .scripts:
+            view.addSubview(inputsScrollView!)
             inputsScrollView!.constrainToSuperview()
-        case .output:
-            container.addSubview(outputsScrollView!)
+        case .jira:
+            view.addSubview(outputsScrollView!)
             outputsScrollView!.constrainToSuperview()
-        case .store:
-            break
-//            container.addSubview(storeView!)
-//            storeView!.constrainToSuperview()
+        case .calendar:
+            view.addSubview(calendarScrollView!)
+            calendarScrollView!.constrainToSuperview()
+        case .browser:
+            view.addSubview(browserScrollView!)
+            browserScrollView!.constrainToSuperview()
         }
     }
 }

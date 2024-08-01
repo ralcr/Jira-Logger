@@ -79,7 +79,7 @@ extension TasksViewController: TasksPresenterOutput {
             self?.presenter!.didClickSaveWorklogs()
         }
         dataSource.didClickSetupJira = { [weak self] in
-            self?.appWireframe!.flipToSettingsController()
+            self?.appWireframe!.showSettings()
         }
 
         let scrollView = ListView(dataSource: dataSource)

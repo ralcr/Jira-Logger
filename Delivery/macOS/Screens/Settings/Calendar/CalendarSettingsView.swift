@@ -8,10 +8,8 @@
 
 import Cocoa
 
-class CalendarCell: NSTableRowView {
-    
-    static let height = CGFloat(200)
-    
+class CalendarSettingsView: NSView {
+
     @IBOutlet private var statusImageView: NSImageView!
     @IBOutlet private var statusTextField: NSTextField!
     @IBOutlet private var descriptionTextField: NSTextField!
@@ -20,11 +18,11 @@ class CalendarCell: NSTableRowView {
     @IBOutlet private var scrollView: NSScrollView!
     private var calendarsButtons = [NSButton]()
     
-    private var presenter: CalendarAppPresenterInput = CalendarAppPresenter()
+    private var presenter: CalendarSettingsPresenterInput = CalendarSettingsPresenter()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        (presenter as! CalendarAppPresenter).userInterface = self
+        (presenter as! CalendarSettingsPresenter).userInterface = self
         presenter.refresh()
     }
     
@@ -57,7 +55,7 @@ class CalendarCell: NSTableRowView {
     }
 }
 
-extension CalendarCell: CalendarAppPresenterOutput {
+extension CalendarSettingsView: CalendarSettingsPresenterOutput {
     
     func enable (_ enabled: Bool) {
         for but in calendarsButtons {

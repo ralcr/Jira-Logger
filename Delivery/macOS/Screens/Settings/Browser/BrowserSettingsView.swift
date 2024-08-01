@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class BrowserCell: NSTableRowView {
+class BrowserSettingsView: NSView {
 
     static let height = CGFloat(270)
     
@@ -25,7 +25,6 @@ class BrowserCell: NSTableRowView {
     @IBOutlet private var minWasteDurationSlider: NSSlider!
     
     func showSettings (_ settings: SettingsBrowser) {
-
         butTrackCodeReviews.state = settings.trackCodeReviews ? NSControl.StateValue.on : NSControl.StateValue.off
         butTrackWastedTime.state = settings.trackWastedTime ? NSControl.StateValue.on : NSControl.StateValue.off
         codeReviewsLinkTextField.stringValue = settings.codeRevLink
@@ -60,10 +59,10 @@ class BrowserCell: NSTableRowView {
                 ? NSImage.statusAvailableName
                 : NSImage.statusUnavailableName)
             coderevTextField.stringValue = compatibility.compatible
-                ? "Jirassic can read the url of your browser and it will log time based on it"
+                ? "Jirassic can read the URL of your active browser and log time based on it"
                 : (compatibility.available
-                    ? "Browser support installed but outdated, please update!"
-                    : "Browser support not installed, please install!")
+                    ? "Application Script installed but outdated, please update!"
+                    : "Application Script not installed, please install!")
         } else {
             coderevImageView.image = NSImage(named: NSImage.statusUnavailableName)
             coderevTextField.stringValue = "Not installed yet"
@@ -90,7 +89,7 @@ class BrowserCell: NSTableRowView {
     }
 
     @IBAction func handleInstallBrowserSupportButton (_ sender: NSButton) {
-        NSWorkspace.shared.open( URL(string: "http://www.jirassic.com/#extensions")!)
+        AppDelegate.sharedApp().openApplicationScripts()
     }
 
     @IBAction func handleMinCodeRevDuration (_ sender: NSSlider) {

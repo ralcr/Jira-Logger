@@ -9,6 +9,14 @@
 import Foundation
 import RCPreferences
 
+enum SettingsTab: Int {
+    case general
+    case scripts
+    case calendar
+    case browser
+    case jira
+}
+
 protocol SettingsPresenterInput: class {
     
     func checkExtensions()

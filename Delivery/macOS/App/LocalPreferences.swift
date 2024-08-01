@@ -42,7 +42,7 @@ enum LocalPreferences: String, RCPreferencesProtocol {
         case .useDuration:              return false
         case .appVersion:               return ""
         case .wizardSteps:              return []
-        case .settingsActiveTab:        return SettingsTab.tracking.rawValue
+        case .settingsActiveTab:        return SettingsTab.general.rawValue
         case .settingsJiraUrl:          return ""
         case .settingsJiraUser:         return ""
         case .settingsJiraProjectId:    return ""

@@ -14,9 +14,7 @@ enum InputType {
     case jirassic
     case git
     case jit
-    case browser
-    case calendar
-    static var all: [InputType] = [.shell, .jirassic, .git, .jit, .browser, .calendar]
+    static var all: [InputType] = [.shell, .jirassic, .git, .jit]
 }
 
 class InputsTableViewDataSource: NSObject {
@@ -40,11 +38,6 @@ class InputsTableViewDataSource: NSObject {
         }
     }
     var browserCompatibility: Compatibility? {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    var browserSettings: SettingsBrowser? {
         didSet {
             tableView.reloadData()
         }
@@ -84,10 +77,6 @@ extension InputsTableViewDataSource: NSTableViewDataSource {
             return GitCell.height
         case .jit:
             return JitCell.height
-        case .browser:
-            return BrowserCell.height
-        case .calendar:
-            return CalendarCell.height
         }
     }
 }
@@ -124,18 +113,18 @@ extension InputsTableViewDataSource: NSTableViewDelegate {
                 cell.setJitStatus(compatibility: jitCompatibility)
             }
             return cell
-        case .browser:
-            let cell = BrowserCell.instantiateFromXib()
-            if let browserCompatibility {
-                cell.setBrowserStatus(compatibility: browserCompatibility)
-            }
-            if let browserSettings {
-                cell.showSettings(browserSettings)
-            }
-            return cell
-        case .calendar:
-            let cell = CalendarCell.instantiateFromXib()
-            return cell
+//        case .browser:
+//            let cell = BrowserCell.instantiateFromXib()
+//            if let browserCompatibility {
+//                cell.setBrowserStatus(compatibility: browserCompatibility)
+//            }
+//            if let browserSettings {
+//                cell.showSettings(browserSettings)
+//            }
+//            return cell
+//        case .calendar:
+//            let cell = CalendarCell.instantiateFromXib()
+//            return cell
         }
     }
 }

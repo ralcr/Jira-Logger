@@ -73,11 +73,7 @@ class WizardAppleScriptView: NSView {
     }
     
     @IBAction func handleInstructionsButton (_ sender: NSButton) {
-        #if APPSTORE
-        NSWorkspace.shared.open( URL(string: "http://www.jirassic.com/#extensions")!)
-        #else
-        NSWorkspace.shared.open( URL(string: "http://www.jirassic.com/#extensions")!)
-        #endif
+        AppDelegate.sharedApp().openApplicationScripts()
     }
 
     @IBAction func handleSkipButton (_ sender: NSButton) {

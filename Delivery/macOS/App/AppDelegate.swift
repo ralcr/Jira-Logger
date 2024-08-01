@@ -207,6 +207,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate (_ aNotification: Notification) {
         
     }
+
+    func openApplicationScripts() {
+        // Open the bundle scripts folder
+        let url = Bundle.main.resourceURL!.appendingPathComponent("scripts")
+        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: url.path)
+
+        // Open application scripts
+        let asUrl = try? FileManager().url(for: .applicationScriptsDirectory,
+                                           in: .userDomainMask,
+                                           appropriateFor: nil,
+                                           create: true)
+        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: asUrl!.path)
+    }
 }
 
 extension AppDelegate {

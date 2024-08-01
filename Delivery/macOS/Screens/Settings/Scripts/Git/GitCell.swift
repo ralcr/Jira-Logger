@@ -34,21 +34,7 @@ class GitCell: NSTableRowView, Saveable {
     }
     
     @IBAction func handleInstallButton (_ sender: NSButton) {
-        // Open the bundle scripts folder
-        let url = Bundle.main.resourceURL!.appendingPathComponent("scripts")
-        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: url.path)
-
-        // Open application scripts
-        let asUrl = try? FileManager().url(for: .applicationScriptsDirectory,
-                                           in: .userDomainMask,
-                                           appropriateFor: nil,
-                                           create: true)
-        NSWorkspace.shared.selectFile(nil, inFileViewerRootedAtPath: asUrl!.path)
-//        #if APPSTORE
-//            NSWorkspace.shared.open( URL(string: "http://www.jirassic.com/#extensions")!)
-//        #else
-//            NSWorkspace.shared.open( URL(string: "https://github.com/ralcr/Jit")!)
-//        #endif
+        AppDelegate.sharedApp().openApplicationScripts()
     }
     
     @IBAction func handlePurchaseButton (_ sender: NSButton) {

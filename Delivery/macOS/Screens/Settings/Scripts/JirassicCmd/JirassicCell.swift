@@ -38,10 +38,9 @@ class JirassicCell: NSTableRowView {
     
     @IBAction func handleInstallButton (_ sender: NSButton) {
         #if APPSTORE
-            NSWorkspace.shared.open( URL(string: "http://www.jirassic.com/#extensions")!)
+        AppDelegate.sharedApp().openApplicationScripts()
         #else
-            //            presenter?.installJirassic()
-            NSWorkspace.shared.open( URL(string: "http://www.jirassic.com/#extensions")!)
+//      presenter?.installJirassic()
         #endif
     }
     

@@ -66,10 +66,8 @@ class BrowserNotification {
                 switch taskType {
                 case .waste:
                     handleWastingTimeEnd()
-                    break
                 case .coderev:
                     handleCodeRevEnd()
-                    break
                 default:
                     break
                 }
