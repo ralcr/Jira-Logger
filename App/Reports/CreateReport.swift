@@ -199,10 +199,10 @@ extension CreateReport {
         return (groups: groups, order: order)
     }
     
-    private func reportsFromGroups (_ groups: [String: [Task]]) -> [Report] {
-        
-        var reportsMap = [String: Report]()
-        
+    private func reportsFromGroups (_ groups: [String: [Task]]) -> [CombinedReports] {
+
+        var reportsMap = [String: CombinedReports]()
+
         for (taskNumber, tasks) in groups {
             
             for task in tasks {
@@ -229,7 +229,7 @@ extension CreateReport {
                     if let taskNotes = task.notes {
                         notes = [taskNotes]
                     }
-                    report = Report(
+                    report = CombinedReports(
                         taskNumber: taskNumber,
                         title: title ?? "",
                         notes: notes,

@@ -8,8 +8,18 @@
 
 import Foundation
 
+/// This is one Task converted to Report
 struct Report {
     
+    var taskNumber: String
+    var title: String
+    var notes: String?
+    var duration: TimeInterval
+}
+
+/// All occurences of the same Report
+struct CombinedReports {
+
     var taskNumber: String
     var title: String
     var notes: [String]

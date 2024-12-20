@@ -83,8 +83,16 @@ class MonthReportFormatter {
         // Iterate over days and create reports
         var reportsByDay = [[Report]]()
         for tasks in tasksByDay {
-            let report = createReport.reports(fromTasks: tasks, targetSeconds: targetSecondsInDay)
-            reportsByDay.append(report)
+            let reports = createReport.reports(fromTasks: tasks, targetSeconds: targetSecondsInDay)
+            reportsByDay.append(reports)
+
+            for report in reports {
+                csv += buildCsvLine(duration: report.duration.secToHours,
+                                    taskNumber: report.taskNumber,
+                                    title: report.title,
+                                    note: report.notes)
+                csv += "\n"
+            }
         }
 
         // Group reports by task number
@@ -133,33 +141,7 @@ class MonthReportFormatter {
         return (notes: notes, totalDuration: totalDuration)
     }
 
-    func csvReports (_ reports: [Report]) -> String {
-
-        var csv = headers.joined(separator: ";") + "\n"
-        // Iterate over reports
-        for report in reports {
-            if report.notes.count > 0 {
-                var duration = report.duration.secToHours
-                for note in report.notes {
-                    csv += buildLine(duration: duration,
-                                     taskNumber: report.taskNumber,
-                                     title: report.title,
-                                     note: note)
-                    csv += "\n"
-                    duration = 0
-                }
-            } else {
-                csv += buildLine(duration: report.duration.secToHours,
-                                 taskNumber: report.taskNumber,
-                                 title: report.title,
-                                 note: "")
-                csv += "\n"
-            }
-        }
-        return csv
-    }
-
-    private func buildLine(duration: Double, taskNumber: String, title: String, note: String) -> String {
+    private func buildCsvLine(duration: Double, taskNumber: String, title: String, note: String) -> String {
         var descr = "\(taskNumber) \(title == "" ? note : title)"
         if taskNumber == "meeting" {
             descr = note

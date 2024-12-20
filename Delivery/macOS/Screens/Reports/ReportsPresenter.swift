@@ -70,7 +70,7 @@ class ReportsPresenter {
         let interactor = MonthReportFormatter()
         var string = ""
         if asCsv {
-            string = interactor.csvReports(currentReports)
+            string = currentReportsCsv
         } else {
             let joined = interactor.joinReports(currentReports)
             string = joined.notes + "\n\n" + joined.totalDuration.secToHoursAndMin
@@ -82,7 +82,8 @@ class ReportsPresenter {
 
     private func copyDayReportToClipboard() {
         let interactor = DayReportFormatter()
-        let string = interactor.stringReports(currentReports)
+        //TODO
+        let string = ""//interactor.stringReports(currentReports)
         RCLog(string)
         NSPasteboard.general.clearContents()
         NSPasteboard.general.writeObjects([string as NSPasteboardWriting])

@@ -16,13 +16,13 @@ enum ListType: Int {
     case projects = 2
 }
 
-protocol MainPresenterInput: class {
-    
+protocol MainPresenterInput: AnyObject {
+
     func viewDidAppear()
     func select(listType: ListType)
 }
 
-protocol MainPresenterOutput: class {
+protocol MainPresenterOutput: AnyObject {
     
     func showWarning (_ show: Bool)
 //    func showMessage (_ message: MessageViewModel)
